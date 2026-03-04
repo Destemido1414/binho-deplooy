@@ -1,4 +1,4 @@
-product.imageUrlimport { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
 export default async function AdminProductPage({
@@ -6,85 +6,75 @@ export default async function AdminProductPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
-
   const product = await prisma.product.findUnique({
-    where: { id },
+    where: { id: params.id },
   });
 
   if (!product) return notFound();
 
   return (
     <div className="max-w-xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Editar Produto</h1>
-        <p className="text-sm text-zinc-500">Atualize as informações do produto.</p>
-      </div>
+      <h1 className="text-2xl font-semibold">Editar Produto</h1>
 
       <form className="space-y-4 border rounded-xl p-6 bg-white">
-
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Nome</label>
+        <div>
+          <label>Nome</label>
           <input
             name="name"
             defaultValue={product.name}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
+            className="w-full border rounded p-2"
           />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Slug</label>
+        <div>
+          <label>Slug</label>
           <input
             name="slug"
             defaultValue={product.slug}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
+            className="w-full border rounded p-2"
           />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Descrição</label>
+        <div>
+          <label>Descrição</label>
           <textarea
             name="description"
             defaultValue={product.description ?? ""}
-            className="w-full rounded-xl border px-3 py-2 outline-none focus:border-zinc-900"
+            className="w-full border rounded p-2"
           />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Preço (centavos)</label>
+        <div>
+          <label>Preço (centavos)</label>
           <input
             name="priceCents"
             type="number"
             defaultValue={product.priceCents}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
+            className="w-full border rounded p-2"
           />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Imagem URL</label>
+        <div>
+          <label>Imagem</label>
           <input
             name="imageUrl"
             defaultValue={product.image ?? ""}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
-            placeholder="https://..."
+            className="w-full border rounded p-2"
           />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Estoque</label>
+        <div>
+          <label>Estoque</label>
           <input
             name="stock"
             type="number"
             defaultValue={product.stock}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
+            className="w-full border rounded p-2"
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full h-11 rounded-xl bg-black text-white hover:bg-zinc-800"
-        >
-          Salvar produto
+        <button className="bg-black text-white px-4 py-2 rounded">
+          Salvar Produto
         </button>
       </form>
     </div>
