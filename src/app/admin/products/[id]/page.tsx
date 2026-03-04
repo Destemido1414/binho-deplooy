@@ -1,20 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-type PageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function AdminProductPage({ params }: PageProps) {
+export default async function AdminProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const product = await prisma.product.findUnique({
     where: { id: params.id },
   });
 
-  if (!product) {
-    notFound();
-  }
+  if (!product) return notFound();
 
   return (
     <div className="max-w-xl space-y-6">
@@ -23,7 +19,7 @@ export default async function AdminProductPage({ params }: PageProps) {
       <form className="space-y-4 border rounded-xl p-6 bg-white">
 
         <div>
-          <label className="block text-sm font-medium mb-1">Nome</label>
+          <label>Nome</label>
           <input
             name="name"
             defaultValue={product.name}
@@ -32,7 +28,7 @@ export default async function AdminProductPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Slug</label>
+          <label>Slug</label>
           <input
             name="slug"
             defaultValue={product.slug}
@@ -41,7 +37,7 @@ export default async function AdminProductPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Descrição</label>
+          <label>Descrição</label>
           <textarea
             name="description"
             defaultValue={product.description ?? ""}
@@ -50,7 +46,7 @@ export default async function AdminProductPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Preço (centavos)</label>
+          <label>Preço (centavos)</label>
           <input
             name="priceCents"
             type="number"
@@ -60,17 +56,17 @@ export default async function AdminProductPage({ params }: PageProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Imagem</label>
+          <label>Imagem</label>
           <input
             name="image"
-            defaultValue={product.image || ""}
+            defaultValue={product.image ?? ""}
             className="w-full border rounded p-2"
             placeholder="https://..."
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Estoque</label>
+          <label>Estoque</label>
           <input
             name="stock"
             type="number"
@@ -79,10 +75,7 @@ export default async function AdminProductPage({ params }: PageProps) {
           />
         </div>
 
-        <button
-          type="submit"
-          className="bg-black text-white px-4 py-2 rounded"
-        >
+        <button className="bg-black text-white px-4 py-2 rounded">
           Salvar Produto
         </button>
 
