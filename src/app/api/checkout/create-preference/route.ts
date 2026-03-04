@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     where: { id: { in: productIds }, isActive: true },
   });
 
-  const byId = new Map(products.map((p) => [p.id, p]));
+  const byId = new Map(products.map((p: any) => [p.id, p]));
   const resolved = parsed.data.items
     .map((i) => {
       const p = byId.get(i.productId);
