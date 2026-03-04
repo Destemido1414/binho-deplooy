@@ -61,7 +61,7 @@ export default async function PedidoPage({
         <div className="rounded-2xl border bg-white">
           <div className="border-b px-5 py-4 text-sm font-semibold">Itens</div>
           <div className="divide-y">
-            {order.items.map((i) => (
+            {order.items.map((i: any) => (
               <div key={i.id} className="flex items-center justify-between px-5 py-4 text-sm">
                 <div className="min-w-0">
                   <div className="truncate font-medium">{i.name}</div>
