@@ -1,22 +1,19 @@
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+model Order {
+  id           String      @id @default(cuid())
+  customerName String
+  phone        String
+  address      String
+  totalCents   Int
+  status       String      @default("PENDING")
+  createdAt    DateTime    @default(now())
+  items        OrderItem[]
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-model Product {
-  id    String @id @default(cuid())
-  name  String
-  price Float
-}
-model QuoteRequest {
+model OrderItem {
   id        String   @id @default(cuid())
+  orderId   String
   name      String
-  phone     String
-  message   String?
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
+  price     Int
+  quantity  Int
+  order     Order    @relation(fields: [orderId], references: [id])
 }
