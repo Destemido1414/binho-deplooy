@@ -17,8 +17,9 @@ export default async function AdminProductPage({
       <h1 className="text-2xl font-semibold">Editar Produto</h1>
 
       <form className="space-y-4 border rounded-xl p-6 bg-white">
+
         <div>
-          <label>Nome</label>
+          <label className="block text-sm font-medium mb-1">Nome</label>
           <input
             name="name"
             defaultValue={product.name}
@@ -27,7 +28,7 @@ export default async function AdminProductPage({
         </div>
 
         <div>
-          <label>Slug</label>
+          <label className="block text-sm font-medium mb-1">Slug</label>
           <input
             name="slug"
             defaultValue={product.slug}
@@ -36,7 +37,7 @@ export default async function AdminProductPage({
         </div>
 
         <div>
-          <label>Descrição</label>
+          <label className="block text-sm font-medium mb-1">Descrição</label>
           <textarea
             name="description"
             defaultValue={product.description ?? ""}
@@ -45,7 +46,9 @@ export default async function AdminProductPage({
         </div>
 
         <div>
-          <label>Preço (centavos)</label>
+          <label className="block text-sm font-medium mb-1">
+            Preço (centavos)
+          </label>
           <input
             name="priceCents"
             type="number"
@@ -55,16 +58,17 @@ export default async function AdminProductPage({
         </div>
 
         <div>
-          <label>Imagem</label>
+          <label className="block text-sm font-medium mb-1">Imagem</label>
           <input
-            name="imageUrl"
+            name="image"
             defaultValue={product.image ?? ""}
             className="w-full border rounded p-2"
+            placeholder="https://..."
           />
         </div>
 
         <div>
-          <label>Estoque</label>
+          <label className="block text-sm font-medium mb-1">Estoque</label>
           <input
             name="stock"
             type="number"
@@ -73,9 +77,13 @@ export default async function AdminProductPage({
           />
         </div>
 
-        <button className="bg-black text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="bg-black text-white px-4 py-2 rounded"
+        >
           Salvar Produto
         </button>
+
       </form>
     </div>
   );
