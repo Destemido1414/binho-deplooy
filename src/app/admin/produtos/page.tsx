@@ -34,7 +34,7 @@ export default async function AdminProductsPage() {
           <div className="col-span-2 text-right">Status</div>
         </div>
         <div className="divide-y">
-          {products.map((p) => (
+          {products.map((p: any) => (
             <Link
               key={p.id}
               href={`/admin/produtos/${p.id}`}
