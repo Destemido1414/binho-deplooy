@@ -77,3 +77,22 @@ function Status({ status }: { status: string }) {
   );
 }
 
+model Order {
+  id           String      @id @default(cuid())
+  customerName String
+  phone        String
+  address      String
+  totalCents   Int
+  status       String      @default("PENDING")
+  createdAt    DateTime    @default(now())
+  items        OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  name      String
+  price     Int
+  quantity  Int
+  order     Order    @relation(fields: [orderId], references: [id])
+}
