@@ -77,22 +77,24 @@ function Status({ status }: { status: string }) {
   );
 }
 
-model Order {
-  id           String      @id @default(cuid())
-  customerName String
-  phone        String
-  address      String
-  totalCents   Int
-  status       String      @default("PENDING")
-  createdAt    DateTime    @default(now())
-  items        OrderItem[]
-}
+function Status({ status }: { status: string }) {
+  const cls =
+    status === "PAID"
+      ? "bg-emerald-50 text-emerald-700"
+      : status === "CANCELLED"
+      ? "bg-red-50 text-red-700"
+      : "bg-amber-50 text-amber-700";
 
-model OrderItem {
-  id        String   @id @default(cuid())
-  orderId   String
-  name      String
-  price     Int
-  quantity  Int
-  order     Order    @relation(fields: [orderId], references: [id])
+  const label =
+    status === "PAID"
+      ? "Pago"
+      : status === "CANCELLED"
+      ? "Cancelado"
+      : "Pendente";
+
+  return (
+    <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${cls}`}>
+      {label}
+    </span>
+  );
 }
