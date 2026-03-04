@@ -28,7 +28,7 @@ export default async function AdminOrdersPage() {
           <div className="col-span-3 text-right">Status</div>
         </div>
         <div className="divide-y">
-          {orders.map((o) => (
+          {orders.map((o: any) => (
             <Link
               key={o.id}
               href={`/pedido/${o.id}`}
