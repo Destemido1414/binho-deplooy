@@ -35,3 +35,13 @@ model QuoteRequest {
   status    String   @default("PENDING")
   createdAt DateTime @default(now())
 }
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  priceCents  Int
+  image       String?
+  stock       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
