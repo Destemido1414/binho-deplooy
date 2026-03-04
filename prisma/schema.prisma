@@ -26,3 +26,12 @@ model OrderItem {
   quantity  Int
   order     Order    @relation(fields: [orderId], references: [id])
 }
+
+model QuoteRequest {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  message   String?
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+}
