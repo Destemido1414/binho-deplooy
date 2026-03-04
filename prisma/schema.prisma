@@ -12,3 +12,11 @@ model Product {
   name  String
   price Float
 }
+model QuoteRequest {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  message   String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
