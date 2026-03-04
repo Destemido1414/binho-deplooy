@@ -1,12 +1,10 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
 
-export async function updateQuoteStatusAction(id: string, status: QuoteStatus) {
+export async function updateQuoteStatusAction(id: string, status: string) {
   await requireAdmin();
-  await prisma.quoteRequest.update({ where: { id }, data: { status } });
-  revalidatePath("/admin/orcamentos");
+  await prisma.quoteRequest.update({
+    where: { id },
+    data: { status }
+  });
 }
-
