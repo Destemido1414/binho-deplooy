@@ -18,7 +18,7 @@ export default async function AdminQuotesPage() {
       </div>
 
       <div className="grid gap-3">
-        {quotes.map((q) => (
+        {quotes.map((q: any) => (
           <div key={q.id} className="rounded-2xl border bg-white p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
