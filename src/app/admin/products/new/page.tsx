@@ -1,91 +1,71 @@
-product.imageUrlimport { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
-export default async function AdminProductPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = params;
+export default function NewProductPage() {
+  async function createProduct(formData: FormData) {
+    "use server";
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-  });
+    const name = formData.get("name") as string;
+    const slug = formData.get("slug") as string;
+    const description = formData.get("description") as string;
+    const priceCents = Number(formData.get("priceCents"));
+    const image = formData.get("image") as string;
+    const stock = Number(formData.get("stock"));
 
-  if (!product) return notFound();
+    await prisma.product.create({
+      data: {
+        name,
+        slug,
+        description,
+        priceCents,
+        image,
+        stock,
+      },
+    });
+
+    redirect("/admin/produtos");
+  }
 
   return (
     <div className="max-w-xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Editar Produto</h1>
-        <p className="text-sm text-zinc-500">Atualize as informações do produto.</p>
-      </div>
+      <h1 className="text-2xl font-semibold">Novo Produto</h1>
 
-      <form className="space-y-4 border rounded-xl p-6 bg-white">
+      <form action={createProduct} className="space-y-4 border rounded-xl p-6 bg-white">
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Nome</label>
-          <input
-            name="name"
-            defaultValue={product.name}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
-          />
+        <div>
+          <label>Nome</label>
+          <input name="name" className="w-full border rounded p-2" />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Slug</label>
-          <input
-            name="slug"
-            defaultValue={product.slug}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
-          />
+        <div>
+          <label>Slug</label>
+          <input name="slug" className="w-full border rounded p-2" />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Descrição</label>
-          <textarea
-            name="description"
-            defaultValue={product.description ?? ""}
-            className="w-full rounded-xl border px-3 py-2 outline-none focus:border-zinc-900"
-          />
+        <div>
+          <label>Descrição</label>
+          <textarea name="description" className="w-full border rounded p-2" />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Preço (centavos)</label>
-          <input
-            name="priceCents"
-            type="number"
-            defaultValue={product.priceCents}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
-          />
+        <div>
+          <label>Preço (centavos)</label>
+          <input name="priceCents" type="number" className="w-full border rounded p-2" />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Imagem URL</label>
-          <input
-            name="imageUrl"
-            defaultValue={product.image ?? ""}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
-            placeholder="https://..."
-          />
+        <div>
+          <label>Imagem</label>
+          <input name="image" className="w-full border rounded p-2" placeholder="https://..." />
         </div>
 
-        <div className="space-y-1">
-          <label className="text-sm font-medium">Estoque</label>
-          <input
-            name="stock"
-            type="number"
-            defaultValue={product.stock}
-            className="h-11 w-full rounded-xl border px-3 outline-none focus:border-zinc-900"
-          />
+        <div>
+          <label>Estoque</label>
+          <input name="stock" type="number" className="w-full border rounded p-2" />
         </div>
 
-        <button
-          type="submit"
-          className="w-full h-11 rounded-xl bg-black text-white hover:bg-zinc-800"
-        >
-          Salvar produto
+        <button className="bg-black text-white px-4 py-2 rounded">
+          Criar Produto
         </button>
+
       </form>
     </div>
   );
