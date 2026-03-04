@@ -1,15 +1,13 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
 export async function GET() {
   return NextResponse.json({
-    status: "ok",
-    message: "API de produtos funcionando"
-  })
+    message: "Lista de produtos"
+  });
 }
 
 export async function POST() {
   return NextResponse.json({
-    status: "ok",
     message: "Produto criado"
-  })
+  });
 }
