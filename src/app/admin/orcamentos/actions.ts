@@ -1,3 +1,3 @@
 export async function updateQuoteStatusAction(id: string, status: string) {
-  return true;
+  console.log("status atualizado", id, status);
 }
