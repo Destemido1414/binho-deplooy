@@ -35,56 +35,32 @@ export default function NewProductPage() {
 
         <div>
           <label>Nome</label>
-          <input
-            name="name"
-            required
-            className="w-full border rounded p-2"
-          />
+          <input name="name" className="w-full border rounded p-2" required />
         </div>
 
         <div>
           <label>Slug</label>
-          <input
-            name="slug"
-            required
-            className="w-full border rounded p-2"
-          />
+          <input name="slug" className="w-full border rounded p-2" required />
         </div>
 
         <div>
           <label>Descrição</label>
-          <textarea
-            name="description"
-            className="w-full border rounded p-2"
-          />
+          <textarea name="description" className="w-full border rounded p-2" />
         </div>
 
         <div>
           <label>Preço (centavos)</label>
-          <input
-            name="priceCents"
-            type="number"
-            required
-            className="w-full border rounded p-2"
-          />
+          <input name="priceCents" type="number" className="w-full border rounded p-2" required />
         </div>
 
         <div>
           <label>Imagem</label>
-          <input
-            name="image"
-            className="w-full border rounded p-2"
-            placeholder="https://..."
-          />
+          <input name="image" className="w-full border rounded p-2" placeholder="https://..." />
         </div>
 
         <div>
           <label>Estoque</label>
-          <input
-            name="stock"
-            type="number"
-            className="w-full border rounded p-2"
-          />
+          <input name="stock" type="number" className="w-full border rounded p-2" />
         </div>
 
         <button

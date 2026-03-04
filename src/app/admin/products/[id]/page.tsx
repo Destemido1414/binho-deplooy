@@ -1,20 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-type PageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function AdminProductPage({ params }: PageProps) {
+export default async function AdminProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const product = await prisma.product.findUnique({
     where: { id: params.id },
   });
 
-  if (!product) {
-    notFound();
-  }
+  if (!product) return notFound();
 
   return (
     <div className="max-w-xl space-y-6">
@@ -54,7 +50,7 @@ export default async function AdminProductPage({ params }: PageProps) {
           <input
             name="priceCents"
             type="number"
-            defaultValue={product.priceCents ?? 0}
+            defaultValue={product.priceCents}
             className="w-full border rounded p-2"
           />
         </div>
@@ -74,7 +70,7 @@ export default async function AdminProductPage({ params }: PageProps) {
           <input
             name="stock"
             type="number"
-            defaultValue={product.stock ?? 0}
+            defaultValue={product.stock}
             className="w-full border rounded p-2"
           />
         </div>
