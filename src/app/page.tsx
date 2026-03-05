@@ -79,12 +79,38 @@ async function FeaturedProducts() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
     take: 6,
-   select: {
-  name: true,
-  slug: true,
-  priceCents: true,
-  image: true,
-},
+    select: {
+      name: true,
+      slug: true,
+      priceCents: true,
+      image: true,
+    },
+  });
+
+  return (
+    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((p) => (
+        <ProductCard
+          key={p.slug}
+          product={{
+            ...p,
+            imageUrl: p.image,
+          }}
+        />
+      ))}
+
+      {products.length === 0 && (
+        <div className="rounded-2xl border bg-white p-6 text-sm text-zinc-600">
+          Ainda não há produtos cadastrados. Acesse o painel em{" "}
+          <Link className="font-medium underline" href="/admin">
+            /admin
+          </Link>{" "}
+          para cadastrar.
+        </div>
+      )}
+    </div>
+  );
+}
 
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
