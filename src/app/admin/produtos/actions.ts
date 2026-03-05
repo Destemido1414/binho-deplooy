@@ -13,8 +13,11 @@ function parsePriceToCents(input: string) {
     .replace(/\./g, "")
     .replace(",", ".")
     .replace(/[^0-9.]/g, "");
+
   const num = Number(normalized);
+
   if (!Number.isFinite(num) || num <= 0) return null;
+
   return Math.round(num * 100);
 }
 
@@ -23,7 +26,7 @@ const baseSchema = z.object({
   description: z.string().optional().or(z.literal("")),
   price: z.string().min(1),
   stock: z.string().min(1),
-  imageUrl: z.string().url().optional().or(z.literal("")),
+  image: z.string().optional().or(z.literal("")),
   isActive: z.string().optional(),
 });
 
@@ -35,18 +38,23 @@ export async function createProductAction(formData: FormData) {
     description: formData.get("description"),
     price: formData.get("price"),
     stock: formData.get("stock"),
-    imageUrl: formData.get("imageUrl"),
+    image: formData.get("image"),
     isActive: formData.get("isActive"),
   });
 
   const priceCents = parsePriceToCents(data.price);
+
   const stock = Number(String(data.stock).replace(/[^\d-]/g, ""));
+
   if (priceCents == null || !Number.isFinite(stock) || stock < 0) {
     throw new Error("Invalid price or stock");
   }
 
   const baseSlug = slugify(data.name);
-  const slug = baseSlug ? `${baseSlug}-${Date.now().toString(36)}` : Date.now().toString(36);
+
+  const slug = baseSlug
+    ? `${baseSlug}-${Date.now().toString(36)}`
+    : Date.now().toString(36);
 
   const product = await prisma.product.create({
     data: {
@@ -55,13 +63,14 @@ export async function createProductAction(formData: FormData) {
       description: data.description || null,
       priceCents,
       stock,
-      imageUrl: data.imageUrl || null,
+      image: data.image || null,
       isActive: data.isActive === "on",
     },
   });
 
   revalidatePath("/admin/produtos");
   revalidatePath("/produtos");
+
   redirect(`/admin/produtos/${product.id}`);
 }
 
@@ -73,12 +82,14 @@ export async function updateProductAction(productId: string, formData: FormData)
     description: formData.get("description"),
     price: formData.get("price"),
     stock: formData.get("stock"),
-    imageUrl: formData.get("imageUrl"),
+    image: formData.get("image"),
     isActive: formData.get("isActive"),
   });
 
   const priceCents = parsePriceToCents(data.price);
+
   const stock = Number(String(data.stock).replace(/[^\d-]/g, ""));
+
   if (priceCents == null || !Number.isFinite(stock) || stock < 0) {
     throw new Error("Invalid price or stock");
   }
@@ -90,22 +101,26 @@ export async function updateProductAction(productId: string, formData: FormData)
       description: data.description || null,
       priceCents,
       stock,
-      imageUrl: data.imageUrl || null,
+      image: data.image || null,
       isActive: data.isActive === "on",
     },
   });
 
   revalidatePath("/admin/produtos");
   revalidatePath("/produtos");
+
   redirect(`/admin/produtos/${productId}`);
 }
 
 export async function deleteProductAction(productId: string) {
   await requireAdmin();
 
-  await prisma.product.delete({ where: { id: productId } });
+  await prisma.product.delete({
+    where: { id: productId },
+  });
+
   revalidatePath("/admin/produtos");
   revalidatePath("/produtos");
+
   redirect("/admin/produtos");
 }
-
