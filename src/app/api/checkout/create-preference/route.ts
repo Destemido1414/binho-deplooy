@@ -66,29 +66,26 @@ export async function POST(req: Request) {
   );
 
   const shippingCents = parsed.data.shippingCents ?? 0;
-
   const totalCents = productsTotalCents + shippingCents;
 
   const order = await prisma.order.create({
-  data: {
-    status: "PENDING_PAYMENT",
-    customerName: parsed.data.customer.name,
+    data: {
+      status: "PENDING_PAYMENT",
+      customerName: parsed.data.customer.name,
+      phone: parsed.data.customer.phone || "não informado",
+      address: parsed.data.customer.address || "não informado",
+      totalCents,
 
-    phone: parsed.data.customer.phone || "não informado",
-    address: parsed.data.customer.address || "não informado",
-
-    totalCents,
-
-    items: {
-      create: resolved.map(({ p, quantity }) => ({
-        productId: p.id,
-        name: p.name,
-        price: p.priceCents,
-        quantity,
-      })),
+      items: {
+        create: resolved.map(({ p, quantity }) => ({
+          productId: p.id,
+          name: p.name,
+          price: p.priceCents,
+          quantity,
+        })),
+      },
     },
-  },
-});
+  });
 
   const mpItems: PreferenceResponse["items"] = resolved.map(
     ({ p, quantity }) => ({
@@ -128,7 +125,6 @@ export async function POST(req: Request) {
     },
   });
 
-  const preferenceId = pref.id;
   const initPoint = pref.init_point ?? pref.sandbox_init_point;
 
   if (!initPoint) {
@@ -138,21 +134,6 @@ export async function POST(req: Request) {
     );
   }
 
-const preferenceId = pref.id;
-const initPoint = pref.init_point ?? pref.sandbox_init_point;
-
-if (!initPoint) {
-  return NextResponse.json(
-    { error: "Falha ao iniciar pagamento" },
-    { status: 502 },
-  );
-}
-
-return NextResponse.json({
-  ok: true,
-  orderId: order.id,
-  initPoint,
-});
   return NextResponse.json({
     ok: true,
     orderId: order.id,
