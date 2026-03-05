@@ -138,11 +138,21 @@ export async function POST(req: Request) {
     );
   }
 
-  await prisma.order.update({
-    where: { id: order.id },
-    data: { mpPreferenceId: preferenceId ?? null },
-  });
+const preferenceId = pref.id;
+const initPoint = pref.init_point ?? pref.sandbox_init_point;
 
+if (!initPoint) {
+  return NextResponse.json(
+    { error: "Falha ao iniciar pagamento" },
+    { status: 502 },
+  );
+}
+
+return NextResponse.json({
+  ok: true,
+  orderId: order.id,
+  initPoint,
+});
   return NextResponse.json({
     ok: true,
     orderId: order.id,
