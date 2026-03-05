@@ -84,16 +84,15 @@ export async function POST(req: Request) {
       customerCity: parsed.data.customer.city || null,
       customerState: parsed.data.customer.state || null,
       paymentProvider: "mercadopago",
-      items: {
-        create: resolved.map(({ p, quantity }) => ({
-          productId: p.id,
-          name: p.name,
-          unitPriceCents: p.priceCents,
-          quantity,
-          lineTotalCents: p.priceCents * quantity,
-        })),
-      },
-    },
+    items: {
+  create: resolved.map(({ p, quantity }) => ({
+    productId: p.id,
+    name: p.name,
+    price: p.priceCents,
+    quantity
+  })),
+},
+    
   });
 
   const mpItems: PreferenceResponse["items"] = resolved.map(
