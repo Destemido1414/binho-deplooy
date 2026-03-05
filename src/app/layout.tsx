@@ -27,13 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-50 text-zinc-950`}
-      >
-        <SiteHeader />
-        <div className="min-h-[calc(100vh-120px)]">{children}</div>
-        <SiteFooter />
-      </body>
+     <body className="bg-black text-white">
+  {children}
+</body>
     </html>
   );
 }
