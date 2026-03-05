@@ -73,13 +73,7 @@ export async function POST(req: Request) {
     data: {
       status: "PENDING_PAYMENT",
       customerName: parsed.data.customer.name,
-      customerEmail: parsed.data.customer.email || null,
-      customerPhone: parsed.data.customer.phone || null,
       totalCents,
-      customerCep: parsed.data.customer.cep || null,
-      customerAddress: parsed.data.customer.address || null,
-      customerCity: parsed.data.customer.city || null,
-      customerState: parsed.data.customer.state || null,
       paymentProvider: "mercadopago",
 
       items: {
@@ -87,7 +81,7 @@ export async function POST(req: Request) {
           productId: p.id,
           name: p.name,
           price: p.priceCents,
-          quantity: quantity,
+          quantity,
         })),
       },
     },
