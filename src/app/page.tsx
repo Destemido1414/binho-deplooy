@@ -59,6 +59,7 @@ export default async function Home() {
             <h2 className="text-2xl font-semibold tracking-tight">
               Destaques do catálogo
             </h2>
+
             <p className="mt-1 text-sm text-zinc-600">
               Alguns produtos mais recentes.
             </p>
@@ -97,31 +98,6 @@ async function FeaturedProducts() {
             imageUrl: p.image,
           }}
         />
-      ))}
-
-      {products.length === 0 && (
-        <div className="rounded-2xl border bg-white p-6 text-sm text-zinc-600">
-          Ainda não há produtos cadastrados. Acesse o painel em{" "}
-          <Link className="font-medium underline" href="/admin">
-            /admin
-          </Link>{" "}
-          para cadastrar.
-        </div>
-      )}
-    </div>
-  );
-}
-
-  return (
-    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((p) => (
-<ProductCard
-  key={p.slug}
-  product={{
-    ...p,
-    imageUrl: p.image,
-  }}
-/>
       ))}
 
       {products.length === 0 && (
