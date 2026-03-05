@@ -79,18 +79,23 @@ async function FeaturedProducts() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
     take: 6,
-    select: {
-      name: true,
-      slug: true,
-      priceCents: true,
-      image: true,
-    },
-  });
+   select: {
+  name: true,
+  slug: true,
+  priceCents: true,
+  image: true,
+},
 
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((p) => (
-        <ProductCard key={p.slug} product={p} />
+<ProductCard
+  key={p.slug}
+  product={{
+    ...p,
+    imageUrl: p.image,
+  }}
+/>
       ))}
 
       {products.length === 0 && (
