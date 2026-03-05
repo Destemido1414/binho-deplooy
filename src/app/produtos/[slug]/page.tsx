@@ -27,9 +27,12 @@ if (!product) return notFound();
 
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border bg-white">
-          {product.imageUrl ? (
+          {product.image ? (
             <Image
               src={product.imageUrl}
+              {product.image ? (
+              <Image
+              src={product.image}
               alt={product.name}
               fill
               className="object-cover"
