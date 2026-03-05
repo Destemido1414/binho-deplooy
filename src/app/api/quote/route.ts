@@ -27,8 +27,7 @@ export async function POST(req: Request) {
   await prisma.quoteRequest.create({
     data: {
       name: parsed.data.name,
-      phone: parsed.data.phone ?? null,
-      email: parsed.data.email || null,
+      phone: parsed.data.phone || "não informado",
       message: parsed.data.message,
     },
   });
