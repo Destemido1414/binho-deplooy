@@ -74,7 +74,6 @@ export async function POST(req: Request) {
       status: "PENDING_PAYMENT",
       customerName: parsed.data.customer.name,
       totalCents,
-      paymentProvider: "mercadopago",
 
       items: {
         create: resolved.map(({ p, quantity }) => ({
