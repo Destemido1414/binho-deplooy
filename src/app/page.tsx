@@ -70,12 +70,16 @@ export default async function Home() {
 }
 
 async function FeaturedProducts() {
-  const products = await prisma.product.findMany({
-    where: { isActive: true },
-    orderBy: { updatedAt: "desc" },
-    take: 6,
-    select: { name: true, slug: true, priceCents: true, imageUrl: true },
-  });
+const products = await prisma.product.findMany({
+  orderBy: { createdAt: "desc" },
+  take: 6,
+  select: {
+    name: true,
+    slug: true,
+    priceCents: true,
+    image: true,
+  },
+});
 
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
