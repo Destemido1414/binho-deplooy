@@ -14,13 +14,16 @@ export default async function Home() {
               <div className="inline-flex items-center rounded-full border bg-white px-3 py-1 text-xs text-zinc-700">
                 Pix • Débito • Crédito (Mercado Pago)
               </div>
+
               <h1 className="mt-4 text-4xl font-semibold tracking-tight">
                 Peças e acessórios para sua moto, com compra simples e segura.
               </h1>
+
               <p className="mt-3 text-base leading-7 text-zinc-600">
-                Catálogo atualizado, orçamento rápido e checkout pelo Mercado Pago
-                com Pix e cartões.
+                Catálogo atualizado, orçamento rápido e checkout pelo Mercado
+                Pago com Pix e cartões.
               </p>
+
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/produtos"
@@ -28,6 +31,7 @@ export default async function Home() {
                 >
                   Ver produtos
                 </Link>
+
                 <Link
                   href="/orcamento"
                   className="rounded-xl border bg-white px-5 py-3 text-sm font-medium hover:bg-zinc-50"
@@ -36,6 +40,7 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
+
             <div className="rounded-3xl border bg-white p-6 shadow-sm">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Feature title="Entrega / retirada" desc="Organize como preferir." />
@@ -58,6 +63,7 @@ export default async function Home() {
               Alguns produtos mais recentes.
             </p>
           </div>
+
           <Link href="/produtos" className="text-sm font-medium hover:underline">
             Ver todos
           </Link>
@@ -70,23 +76,24 @@ export default async function Home() {
 }
 
 async function FeaturedProducts() {
-const products = await prisma.product.findMany({
-  orderBy: { createdAt: "desc" },
-  take: 6,
-  select: {
-    name: true,
-    slug: true,
-    priceCents: true,
-    image: true,
-  },
-});
+  const products = await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 6,
+    select: {
+      name: true,
+      slug: true,
+      priceCents: true,
+      image: true,
+    },
+  });
 
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((p: any) =>  (
+      {products.map((p) => (
         <ProductCard key={p.slug} product={p} />
       ))}
-      {products.length === 0 ? (
+
+      {products.length === 0 && (
         <div className="rounded-2xl border bg-white p-6 text-sm text-zinc-600">
           Ainda não há produtos cadastrados. Acesse o painel em{" "}
           <Link className="font-medium underline" href="/admin">
@@ -94,7 +101,7 @@ const products = await prisma.product.findMany({
           </Link>{" "}
           para cadastrar.
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
@@ -107,4 +114,3 @@ function Feature({ title, desc }: { title: string; desc: string }) {
     </div>
   );
 }
-
