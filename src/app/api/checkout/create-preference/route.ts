@@ -34,10 +34,7 @@ export async function POST(req: Request) {
   const parsed = schema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: "Dados inválidos" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
 
   const productIds = parsed.data.items.map((i) => i.productId);
@@ -84,15 +81,16 @@ export async function POST(req: Request) {
       customerCity: parsed.data.customer.city || null,
       customerState: parsed.data.customer.state || null,
       paymentProvider: "mercadopago",
-    items: {
-  create: resolved.map(({ p, quantity }) => ({
-    productId: p.id,
-    name: p.name,
-    price: p.priceCents,
-    quantity
-  })),
-},
-    
+
+      items: {
+        create: resolved.map(({ p, quantity }) => ({
+          productId: p.id,
+          name: p.name,
+          price: p.priceCents,
+          quantity: quantity,
+        })),
+      },
+    },
   });
 
   const mpItems: PreferenceResponse["items"] = resolved.map(
