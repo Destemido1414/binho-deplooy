@@ -15,8 +15,7 @@ export default async function ProductPage({
   const product = await prisma.product.findUnique({
     where: { slug: params.slug },
   });
-  if (!product || !product.isActive) return notFound();
-
+if (!product) return notFound();
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-6 text-sm text-zinc-600">
