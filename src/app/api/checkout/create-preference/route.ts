@@ -30,17 +30,24 @@ const schema = z.object({
 
 export async function POST(req: Request) {
   const body = (await req.json().catch(() => null)) as unknown;
+
   const parsed = schema.safeParse(body);
+
   if (!parsed.success) {
-    return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Dados inválidos" },
+      { status: 400 },
+    );
   }
 
   const productIds = parsed.data.items.map((i) => i.productId);
+
   const products = await prisma.product.findMany({
-    where: { id: { in: productIds }, isActive: true },
+    where: { id: { in: productIds } },
   });
 
   const byId = new Map(products.map((p: any) => [p.id, p]));
+
   const resolved = parsed.data.items
     .map((i) => {
       const p = byId.get(i.productId);
@@ -60,7 +67,9 @@ export async function POST(req: Request) {
     (sum, { p, quantity }) => sum + p.priceCents * quantity,
     0,
   );
+
   const shippingCents = parsed.data.shippingCents ?? 0;
+
   const totalCents = productsTotalCents + shippingCents;
 
   const order = await prisma.order.create({
@@ -140,6 +149,9 @@ export async function POST(req: Request) {
     data: { mpPreferenceId: preferenceId ?? null },
   });
 
-  return NextResponse.json({ ok: true, orderId: order.id, initPoint });
+  return NextResponse.json({
+    ok: true,
+    orderId: order.id,
+    initPoint,
+  });
 }
-
