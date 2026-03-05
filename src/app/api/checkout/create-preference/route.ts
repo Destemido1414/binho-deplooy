@@ -70,21 +70,25 @@ export async function POST(req: Request) {
   const totalCents = productsTotalCents + shippingCents;
 
   const order = await prisma.order.create({
-    data: {
-      status: "PENDING_PAYMENT",
-      customerName: parsed.data.customer.name,
-      totalCents,
+  data: {
+    status: "PENDING_PAYMENT",
+    customerName: parsed.data.customer.name,
 
-      items: {
-        create: resolved.map(({ p, quantity }) => ({
-          productId: p.id,
-          name: p.name,
-          price: p.priceCents,
-          quantity,
-        })),
-      },
+    phone: parsed.data.customer.phone || "não informado",
+    address: parsed.data.customer.address || "não informado",
+
+    totalCents,
+
+    items: {
+      create: resolved.map(({ p, quantity }) => ({
+        productId: p.id,
+        name: p.name,
+        price: p.priceCents,
+        quantity,
+      })),
     },
-  });
+  },
+});
 
   const mpItems: PreferenceResponse["items"] = resolved.map(
     ({ p, quantity }) => ({
