@@ -46,13 +46,12 @@ export async function POST(req: Request) {
   if (status === "approved") {
     await prisma.order.updateMany({
       where: { id: orderId, status: { not: "PAID" } },
-      data: { status: "PAID", paymentId: String(paymentId) },
+     data: { status: "PAID" },
     });
   } else if (status === "cancelled" || status === "rejected") {
     await prisma.order.updateMany({
       where: { id: orderId, status: { not: "PAID" } },
-      data: { status: "CANCELLED", paymentId: String(paymentId) },
-    });
+     data: { status: "CANCELLED" }    });
   }
 
   return NextResponse.json({ ok: true });
