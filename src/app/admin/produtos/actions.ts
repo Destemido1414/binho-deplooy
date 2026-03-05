@@ -27,7 +27,6 @@ const baseSchema = z.object({
   price: z.string().min(1),
   stock: z.string().min(1),
   image: z.string().optional().or(z.literal("")),
-  isActive: z.string().optional(),
 });
 
 export async function createProductAction(formData: FormData) {
@@ -39,11 +38,9 @@ export async function createProductAction(formData: FormData) {
     price: formData.get("price"),
     stock: formData.get("stock"),
     image: formData.get("image"),
-    isActive: formData.get("isActive"),
   });
 
   const priceCents = parsePriceToCents(data.price);
-
   const stock = Number(String(data.stock).replace(/[^\d-]/g, ""));
 
   if (priceCents == null || !Number.isFinite(stock) || stock < 0) {
@@ -51,7 +48,6 @@ export async function createProductAction(formData: FormData) {
   }
 
   const baseSlug = slugify(data.name);
-
   const slug = baseSlug
     ? `${baseSlug}-${Date.now().toString(36)}`
     : Date.now().toString(36);
@@ -64,7 +60,6 @@ export async function createProductAction(formData: FormData) {
       priceCents,
       stock,
       image: data.image || null,
-      isActive: data.isActive === "on",
     },
   });
 
@@ -83,11 +78,9 @@ export async function updateProductAction(productId: string, formData: FormData)
     price: formData.get("price"),
     stock: formData.get("stock"),
     image: formData.get("image"),
-    isActive: formData.get("isActive"),
   });
 
   const priceCents = parsePriceToCents(data.price);
-
   const stock = Number(String(data.stock).replace(/[^\d-]/g, ""));
 
   if (priceCents == null || !Number.isFinite(stock) || stock < 0) {
@@ -102,7 +95,6 @@ export async function updateProductAction(productId: string, formData: FormData)
       priceCents,
       stock,
       image: data.image || null,
-      isActive: data.isActive === "on",
     },
   });
 
