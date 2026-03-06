@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 
 export default async function Home() {
   return (
-    <main>
+    <main className="bg-black text-white min-h-screen">
       <section className="bg-gradient-to-b from-white to-zinc-50">
         <div className="mx-auto max-w-6xl px-4 py-14">
           <div className="grid gap-8 md:grid-cols-2 md:items-center">
@@ -15,10 +15,9 @@ export default async function Home() {
                 Pix • Débito • Crédito (Mercado Pago)
               </div>
 
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight">
-                Peças e acessórios para sua moto, com compra simples e segura.
-              </h1>
-
+              <h1 className="mt-4 text-4xl font-bold text-white">
+BINHO MOTOS
+</h1>
               <p className="mt-3 text-base leading-7 text-zinc-600">
                 Catálogo atualizado, orçamento rápido e checkout pelo Mercado
                 Pago com Pix e cartões.
