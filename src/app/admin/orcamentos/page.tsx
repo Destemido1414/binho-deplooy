@@ -18,24 +18,75 @@ export default async function AdminQuotesPage() {
       </div>
 
       <div className="grid gap-3">
-        {quotes.map((q: any) => (
-          <div key={q.id} className="rounded-2xl border bg-white p-5">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <div className="font-semibold">{q.name}</div>
-                <div className="mt-1 text-sm text-zinc-600">
-                  {q.email ? q.email : null}
-                  {q.email && q.phone ? " • " : null}
-                  {q.phone ? q.phone : null}
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <StatusPill status={q.status} />
-                <div className="text-xs text-zinc-500">
-                {new Date(q.createdAt).toLocaleString("pt-BR")}
-                </div>
-              </div>
-            </div>
+  {quotes.map((q: any) => (
+    <div key={q.id} className="rounded-2xl border bg-white p-5">
+      
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="font-semibold">{q.name}</div>
+          <div className="mt-1 text-sm text-zinc-600">
+            {q.email}
+            {q.email && q.phone ? " • " : null}
+            {q.phone}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <StatusPill status={q.status} />
+          <div className="text-xs text-zinc-500">
+            {new Date(q.createdAt).toLocaleString("pt-BR")}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-3 whitespace-pre-wrap text-sm text-zinc-800">
+        {q.message}
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <form
+          action={async () => {
+            "use server";
+            await updateQuoteStatusAction(q.id, "IN_PROGRESS");
+          }}
+        >
+          <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
+            Em andamento
+          </button>
+        </form>
+
+        <form
+          action={async () => {
+            "use server";
+            await updateQuoteStatusAction(q.id, "DONE");
+          }}
+        >
+          <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
+            Concluído
+          </button>
+        </form>
+
+        <form
+          action={async () => {
+            "use server";
+            await updateQuoteStatusAction(q.id, "ARCHIVED");
+          }}
+        >
+          <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
+            Arquivar
+          </button>
+        </form>
+      </div>
+
+    </div>
+  ))}
+
+  {quotes.length === 0 ? (
+    <div className="rounded-2xl border bg-white p-6 text-sm text-zinc-600">
+      Nenhum orçamento ainda.
+    </div>
+  ) : null}
+</div>
 
             <div className="mt-3 whitespace-pre-wrap text-sm text-zinc-800">
               {q.message}
