@@ -18,128 +18,58 @@ export default async function AdminQuotesPage() {
       </div>
 
       <div className="grid gap-3">
-  {quotes.map((q: any) => (
-    <div key={q.id} className="rounded-2xl border bg-white p-5">
-      
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <div className="font-semibold">{q.name}</div>
-          <div className="mt-1 text-sm text-zinc-600">
-            {q.email}
-            {q.email && q.phone ? " • " : null}
-            {q.phone}
-          </div>
-        </div>
+        {quotes.map((q: any) => (
+          <div key={q.id} className="rounded-2xl border bg-white p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="font-semibold">{q.name}</div>
+                <div className="mt-1 text-sm text-zinc-600">
+                  {q.email}
+                  {q.email && q.phone ? " • " : null}
+                  {q.phone}
+                </div>
+              </div>
 
-        <div className="flex items-center gap-2">
-          <StatusPill status={q.status} />
-          <div className="text-xs text-zinc-500">
-            {new Date(q.createdAt).toLocaleString("pt-BR")}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-3 whitespace-pre-wrap text-sm text-zinc-800">
-        {q.message}
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <form
-          action={async () => {
-            "use server";
-            await updateQuoteStatusAction(q.id, "IN_PROGRESS");
-          }}
-        >
-          <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
-            Em andamento
-          </button>
-        </form>
-
-        <form
-          action={async () => {
-            "use server";
-            await updateQuoteStatusAction(q.id, "DONE");
-          }}
-        >
-          <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
-            Concluído
-          </button>
-        </form>
-
-        <form
-          action={async () => {
-            "use server";
-            await updateQuoteStatusAction(q.id, "ARCHIVED");
-          }}
-        >
-          <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
-            Arquivar
-          </button>
-        </form>
-      </div>
-
-    </div>
-  ))}
-
-  {quotes.length === 0 ? (
-    <div className="rounded-2xl border bg-white p-6 text-sm text-zinc-600">
-      Nenhum orçamento ainda.
-    </div>
-  ) : null}
-</div>
+              <div className="flex items-center gap-2">
+                <StatusPill status={q.status} />
+                <div className="text-xs text-zinc-500">
+                  {new Date(q.createdAt).toLocaleString("pt-BR")}
+                </div>
+              </div>
+            </div>
 
             <div className="mt-3 whitespace-pre-wrap text-sm text-zinc-800">
               {q.message}
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-  <form
-    action={async () => {
-      "use server";
-      await updateQuoteStatusAction(q.id, "IN_PROGRESS");
-    }}
-  >
-    <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
-      Em andamento
-    </button>
-  </form>
-
-  <form
-    action={async () => {
-      "use server";
-      await updateQuoteStatusAction(q.id, "DONE");
-    }}
-  >
-    <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
-      Concluído
-    </button>
-  </form>
-
-  <form
-    action={async () => {
-      "use server";
-      await updateQuoteStatusAction(q.id, "ARCHIVED");
-    }}
-  >
-    <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
-      Arquivar
-    </button>
-  </form>
-</div>
               <form
-                action={updateQuoteStatusAction.bind(null, q.id, "IN_PROGRESS")}
+                action={async () => {
+                  "use server";
+                  await updateQuoteStatusAction(q.id, "IN_PROGRESS");
+                }}
               >
                 <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
                   Em andamento
                 </button>
               </form>
-              <form action={updateQuoteStatusAction.bind(null, q.id, "DONE")}>
+
+              <form
+                action={async () => {
+                  "use server";
+                  await updateQuoteStatusAction(q.id, "DONE");
+                }}
+              >
                 <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
                   Concluído
                 </button>
               </form>
+
               <form
-                action={updateQuoteStatusAction.bind(null, q.id, "ARCHIVED")}
+                action={async () => {
+                  "use server";
+                  await updateQuoteStatusAction(q.id, "ARCHIVED");
+                }}
               >
                 <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
                   Arquivar
@@ -148,11 +78,12 @@ export default async function AdminQuotesPage() {
             </div>
           </div>
         ))}
-        {quotes.length === 0 ? (
+
+        {quotes.length === 0 && (
           <div className="rounded-2xl border bg-white p-6 text-sm text-zinc-600">
             Nenhum orçamento ainda.
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
@@ -163,23 +94,25 @@ function StatusPill({ status }: { status: string }) {
     status === "NEW"
       ? "bg-blue-50 text-blue-700"
       : status === "IN_PROGRESS"
-        ? "bg-amber-50 text-amber-700"
-        : status === "DONE"
-          ? "bg-emerald-50 text-emerald-700"
-          : "bg-zinc-100 text-zinc-700";
+      ? "bg-amber-50 text-amber-700"
+      : status === "DONE"
+      ? "bg-emerald-50 text-emerald-700"
+      : "bg-zinc-100 text-zinc-700";
+
   const label =
     status === "NEW"
       ? "Novo"
       : status === "IN_PROGRESS"
-        ? "Em andamento"
-        : status === "DONE"
-          ? "Concluído"
-          : "Arquivado";
+      ? "Em andamento"
+      : status === "DONE"
+      ? "Concluído"
+      : "Arquivado";
 
   return (
-    <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${cls}`}>
+    <span
+      className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${cls}`}
+    >
       {label}
     </span>
   );
 }
-
