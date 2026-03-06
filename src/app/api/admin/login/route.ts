@@ -2,24 +2,17 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
 
-  const body = await req.json();
+  const form = await req.formData();
 
-  const email = body.email;
-  const password = body.password;
-
-  // LOGIN SIMPLES (SEM BANCO)
+  const email = form.get("email");
+  const password = form.get("password");
 
   if (email === "admin@admin.com" && password === "123456") {
-
-    return NextResponse.json({
-      success: true
-    });
-
+    return NextResponse.json({ success: true });
   }
 
   return NextResponse.json(
     { error: "Credenciais inválidas" },
     { status: 401 }
   );
-
 }
