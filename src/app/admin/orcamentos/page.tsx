@@ -32,7 +32,7 @@ export default async function AdminQuotesPage() {
               <div className="flex items-center gap-2">
                 <StatusPill status={q.status} />
                 <div className="text-xs text-zinc-500">
-                  {q.createdAt.toLocaleString("pt-BR")}
+                {new Date(q.createdAt).toLocaleString("pt-BR")}
                 </div>
               </div>
             </div>
@@ -42,6 +42,39 @@ export default async function AdminQuotesPage() {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
+  <form
+    action={async () => {
+      "use server";
+      await updateQuoteStatusAction(q.id, "IN_PROGRESS");
+    }}
+  >
+    <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
+      Em andamento
+    </button>
+  </form>
+
+  <form
+    action={async () => {
+      "use server";
+      await updateQuoteStatusAction(q.id, "DONE");
+    }}
+  >
+    <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
+      Concluído
+    </button>
+  </form>
+
+  <form
+    action={async () => {
+      "use server";
+      await updateQuoteStatusAction(q.id, "ARCHIVED");
+    }}
+  >
+    <button className="rounded-xl border px-3 py-2 text-sm hover:bg-zinc-50">
+      Arquivar
+    </button>
+  </form>
+</div>
               <form
                 action={updateQuoteStatusAction.bind(null, q.id, "IN_PROGRESS")}
               >
